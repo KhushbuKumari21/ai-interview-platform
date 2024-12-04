@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import styles from '../styles/AnswerRecordingScreen.module.css'; // Adjusted import
+import styles from '../styles/AnswerRecordingScreen.module.css';
 
 export default function AnswerRecordingScreen({
   nextScreen,
@@ -7,30 +7,29 @@ export default function AnswerRecordingScreen({
   questionIndex,
   totalQuestions,
   onAnswerComplete,
-  timerDuration = 60, // Timer duration in seconds
+  timerDuration = 60,
 }) {
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [timer, setTimer] = useState(timerDuration);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [previewURL, setPreviewURL] = useState(null); // For video preview
+  const [previewURL, setPreviewURL] = useState(null);
   const videoRef = useRef(null);
   const timerRef = useRef(null);
   const streamRef = useRef(null);
 
-  // Memoized resetTimer function to avoid unnecessary re-creations
   const resetTimer = useCallback(() => {
-    setTimer(timerDuration); // Reset timer to dynamic duration
+    setTimer(timerDuration);
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimer((prevTime) => {
         if (prevTime === 1) {
-          handleSubmit(); // Auto-submit when timer ends
+          handleSubmit();
         }
         return prevTime - 1;
       });
     }, 1000);
-  }, [timerDuration, handleSubmit]);  // Add handleSubmit to the dependencies
+  }, [timerDuration, handleSubmit]);
 
   useEffect(() => {
     const startRecording = async () => {
@@ -45,7 +44,7 @@ export default function AnswerRecordingScreen({
         recorder.ondataavailable = (e) => setChunks((prev) => [...prev, e.data]);
         recorder.start();
         setMediaRecorder(recorder);
-        resetTimer(); // Start the timer
+        resetTimer();
       } catch (error) {
         console.error("Error accessing media devices:", error);
         alert(
@@ -64,13 +63,14 @@ export default function AnswerRecordingScreen({
     };
   }, [resetTimer]);
 
-  const generatePreview = () => {
+  // Memoized generatePreview function to prevent unnecessary re-creations
+  const generatePreview = useCallback(() => {
     if (chunks.length > 0) {
       const blob = new Blob(chunks, { type: "video/webm" });
       const url = URL.createObjectURL(blob);
       setPreviewURL(url);
     }
-  };
+  }, [chunks]);  // Only re-create when chunks change
 
   const handleSubmit = useCallback(() => {
     if (isSubmitted) return;
