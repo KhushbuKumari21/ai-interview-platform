@@ -11,6 +11,8 @@ export default function CheckPermissionScreen({ nextScreen }) {
 
   // Memoized checkPermissions function to avoid unnecessary re-creations
   const checkPermissions = useCallback(async () => {
+    setErrorMessage(""); // Reset error message on permission check attempt
+
     try {
       // Try to get user media for both video and audio (camera and microphone)
       const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -38,10 +40,14 @@ export default function CheckPermissionScreen({ nextScreen }) {
         };
       }
     } catch (error) {
-      // Set error message if permissions are not granted
-      setErrorMessage(
-        "Some permissions are missing. Please enable camera, microphone, and screen sharing."
-      );
+      // Set error message for specific permission issue
+      if (error.name === "NotAllowedError") {
+        setErrorMessage("Permissions not granted. Please enable camera, microphone, and screen sharing.");
+      } else if (error.name === "NotFoundError") {
+        setErrorMessage("Could not find media devices. Please check your device settings.");
+      } else {
+        setErrorMessage("An unknown error occurred while checking permissions.");
+      }
     }
   }, [nextScreen]);
 
@@ -110,14 +116,17 @@ export default function CheckPermissionScreen({ nextScreen }) {
             />
           </div>
         </div>
+
         {/* Display error message if there is one */}
         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+
         <button
           className={`${styles.button} ${allPermissionsGranted ? styles.startButton : styles.checkButton}`}
           onClick={handleStartInterview}
         >
           {allPermissionsGranted ? "Start Interview" : "Check Permissions"}
         </button>
+
         {/* Show retry button if not all permissions are granted */}
         {!allPermissionsGranted && (
           <button
