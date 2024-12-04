@@ -30,7 +30,7 @@ export default function AnswerRecordingScreen({
         return prevTime - 1;
       });
     }, 1000);
-  }, [timerDuration]);
+  }, [timerDuration, handleSubmit]);  // Add handleSubmit to the dependencies
 
   useEffect(() => {
     const startRecording = async () => {
@@ -72,7 +72,7 @@ export default function AnswerRecordingScreen({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (isSubmitted) return;
 
     if (onAnswerComplete) onAnswerComplete();
@@ -95,7 +95,7 @@ export default function AnswerRecordingScreen({
     } else {
       nextScreen("thankYou");
     }
-  };
+  }, [isSubmitted, onAnswerComplete, mediaRecorder, generatePreview, streamRef, questionIndex, totalQuestions, nextScreen]);
 
   return (
     <div className={styles.container}>
