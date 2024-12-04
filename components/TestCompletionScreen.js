@@ -1,20 +1,21 @@
-import React from 'react';
+import React from "react";
+import styles from "../styles/TestCompletionScreen.module.css"; // Importing the CSS module
 
 export default function TestCompletionScreen({ stopCamera }) {
   const handleOkClick = () => {
-    stopCamera(); // Stop the camera when the "OK" button is clicked
-    // Add any other logic to complete the test
-    alert("Thank you! Your exam is complete.");
+    if (stopCamera) {
+      stopCamera(); // Stop the camera when the "OK" button is clicked
+      alert("Thank you! Your exam is complete."); // Notify the user
+    } else {
+      console.error("stopCamera function is not defined.");
+    }
   };
 
   return (
-    <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-4">Test Completed</h1>
-      <p className="text-lg text-center mb-4">Thank you for completing the interview!</p>
-      <button
-        onClick={handleOkClick}
-        className="w-full py-2 bg-blue-500 text-white rounded-lg"
-      >
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Test Completed</h1>
+      <p className={styles.message}>Thank you for completing the interview!</p>
+      <button onClick={handleOkClick} className={styles.button}>
         OK
       </button>
     </div>

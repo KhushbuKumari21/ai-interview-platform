@@ -1,54 +1,130 @@
 import { useEffect, useState } from "react";
+import styles from "../styles/CheckPermissionScreen.module.css"; // Importing the CSS module
 
 export default function CheckPermissionScreen({ nextScreen }) {
-  const [hasPermissions, setHasPermissions] = useState(null);
+  const [permissions, setPermissions] = useState({
+    camera: false,
+    microphone: false,
+    screen: false,
+  });
   const [errorMessage, setErrorMessage] = useState("");
+  const [screenStream, setScreenStream] = useState(null);
 
+  // Check permissions for camera, microphone, and screen sharing
   const checkPermissions = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-      await navigator.mediaDevices.getDisplayMedia();
-      setHasPermissions(true);
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      if (mediaStream) {
+        setPermissions((prev) => ({
+          ...prev,
+          camera: true,
+          microphone: true,
+        }));
+      }
+
+      const screenStream = await navigator.mediaDevices.getDisplayMedia();
+      if (screenStream) {
+        setPermissions((prev) => ({
+          ...prev,
+          screen: true,
+        }));
+        setScreenStream(screenStream); // Save the screen stream to track it
+        screenStream.oninactive = () => {
+          // Automatically submit when screen sharing stops
+          nextScreen("completion");
+        };
+      }
     } catch (error) {
-      setHasPermissions(false);
       setErrorMessage(
-        error.message || "Permission denied. Please enable camera and microphone."
+        "Some permissions are missing. Please enable camera, microphone, and screen sharing."
       );
     }
   };
 
+  const handleStartInterview = () => {
+    if (permissions.camera && permissions.microphone && permissions.screen) {
+      nextScreen("question");
+    } else {
+      setErrorMessage(
+        "Please ensure all permissions (camera, microphone, and screen sharing) are enabled before starting the interview."
+      );
+    }
+  };
+
+  // Automatically check permissions on component mount
   useEffect(() => {
     checkPermissions();
   }, []);
 
-  if (hasPermissions === null) {
-    return <div>Checking permissions...</div>;
-  }
+  // Helper function to check if all permissions are granted
+  const allPermissionsGranted =
+    permissions.camera && permissions.microphone && permissions.screen;
 
   return (
-    <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-      {hasPermissions ? (
-        <div>
-          <h1 className="text-2xl font-bold text-center mb-4">Permissions Granted</h1>
-          <button
-            className="w-full py-2 bg-blue-500 text-white rounded-lg"
-            onClick={() => nextScreen("question")}
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.heading}>Ready to Join?</h1>
+        <p className={styles.subheading}>Please make sure your device is properly configured.</p>
+        <div className={styles.permissionList}>
+          <div
+            className={`${styles.permissionItem} ${
+              permissions.camera ? styles.granted : styles.denied
+            }`}
           >
-            Start Interview
-          </button>
+            <span>Check Camera</span>
+            <input
+              type="checkbox"
+              checked={permissions.camera}
+              readOnly
+              className={styles.checkbox}
+            />
+          </div>
+          <div
+            className={`${styles.permissionItem} ${
+              permissions.microphone ? styles.granted : styles.denied
+            }`}
+          >
+            <span>Check Microphone</span>
+            <input
+              type="checkbox"
+              checked={permissions.microphone}
+              readOnly
+              className={styles.checkbox}
+            />
+          </div>
+          <div
+            className={`${styles.permissionItem} ${
+              permissions.screen ? styles.granted : styles.denied
+            }`}
+          >
+            <span>Enable Screen Share</span>
+            <input
+              type="checkbox"
+              checked={permissions.screen}
+              readOnly
+              className={styles.checkbox}
+            />
+          </div>
         </div>
-      ) : (
-        <div>
-          <h1 className="text-2xl font-bold text-center mb-4">Permissions Denied</h1>
-          <p className="text-center text-red-500">{errorMessage}</p>
+        {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
+        <button
+          className={`${styles.button} ${allPermissionsGranted ? styles.startButton : styles.checkButton}`}
+          onClick={handleStartInterview}
+        >
+          {allPermissionsGranted ? "Start Interview" : "Check Permissions"}
+        </button>
+        {!allPermissionsGranted && (
           <button
-            className="w-full py-2 bg-gray-500 text-white rounded-lg"
+            className={styles.retryButton}
             onClick={checkPermissions}
           >
             Retry Permissions
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

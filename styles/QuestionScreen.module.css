@@ -1,53 +1,86 @@
 /* styles/QuestionScreen.module.css */
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 20px;
-    background-color: #f4f4f9;
+  width: 100%;
+  max-width: 500px; /* Limit width for larger screens */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.progress {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.recording-status {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 15px;
   }
-  
+
   .heading {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 1.25rem;
   }
-  
-  .text {
-    font-size: 1.2rem;
-    color: #555;
-    text-align: center;
-    margin-bottom: 30px;
+
+  .question {
+    font-size: 1.1rem;
   }
-  
+
   .button {
-    padding: 12px 20px;
+    padding: 10px;
     font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 10px;
   }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  .button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .audioStatus {
-    font-size: 1rem;
-    color: #888;
-    margin: 20px 0;
-  }
-  
+}

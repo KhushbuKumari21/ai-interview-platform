@@ -1,0 +1,45 @@
+/* Base style for center-aligned messages */
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  
+  .bg-gray-100 {
+    background-color: #f7fafc;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Style for the "Interview Ended" message */
+  .thank-you-heading {
+    font-size: 2rem; /* Adjust font size */
+    font-weight: bold;
+    color: #2d3748; /* Dark text color for contrast */
+    background-color: #e2e8f0; /* Light background color */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+    max-width: 80%;
+    margin: auto;
+  }
+  
+  /* Style for the "Answer Submitted" message */
+  .answer-submitted-heading {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4caf50; /* Green color for success */
+    background-color: #e8f5e9; /* Light green background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    margin: auto;
+  }
+  

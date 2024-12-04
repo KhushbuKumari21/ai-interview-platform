@@ -1,18 +1,25 @@
 import React from "react";
+import styles from '../styles/InstructionScreen.module.css';
 
 const InstructionScreen = ({ nextScreen }) => {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-4">Instructions</h1>
-      <p className="text-center mb-4">
-        Follow the instructions to proceed with the interview.
-      </p>
-      <button
-        className="w-full py-2 bg-blue-500 text-white rounded-lg"
-        onClick={() => nextScreen("permission")}
-      >
-        Proceed
-      </button>
+    <div className={styles.container}>
+      <div className={styles.instructionBox}>
+        <h1 className={styles.heading}>Instructions</h1>
+        <ul className={styles.instructionsList}>
+          <li>1. Ensure stable internet and choose a clean, quiet location.</li>
+          <li>2. Permission for access to camera, microphone, and screen sharing is required.</li>
+          <li>3. Be in professional attire and avoid distractions.</li>
+          <li>4. Provide detailed responses with examples.</li>
+          <li>5. Answer the questions based on your projects and experience.</li>
+        </ul>
+        <button
+          className={styles.button}
+          onClick={() => nextScreen("permission")}
+        >
+          Start Now
+        </button>
+      </div>
     </div>
   );
 };

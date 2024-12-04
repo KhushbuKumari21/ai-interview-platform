@@ -1,40 +1,115 @@
-/* styles/AnswerRecordingScreen.module.css */
-
+/* Container for the entire screen */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f9;
+    min-height: 100vh;
+    background-color: #f4f4f4;
     padding: 20px;
-    gap: 20px;
-}
-
-.video {
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  /* Styling for the video player */
+  .video {
+    width: 80%;
+    max-width: 800px;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background-color: #000;
+  }
+  
+  /* Timer and question text styling */
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Time remaining styling */
+  .time-remaining {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Styling for the submit button */
+  .button {
+    background-color: #4caf50; /* Initial background color */
+    color: white; /* Text color */
+    padding: 12px 24px; /* Padding for the button */
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 80px; /* Makes the button round */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background color and text color */
+    margin-top: 20px;
+  }
+  
+  .button:hover {
+    background-color: hwb(120 90% 7%); /* Darker green on hover */
+    color: hsl(0, 0%, 5%); /* Text color stays white */
+  }
+  
+  .button:disabled {
+    background-color: #ccc; /* Disabled button color */
+    cursor: not-allowed;
+  }
+  
+  /* Styling for the preview section */
+  .preview-container {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .preview-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .preview-video {
+    width: 80%;
+    max-width: 800px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #000;
+  }
+  
+  /* Feedback styling after test completion */
+  .feedback-container {
+    margin-top: 30px;
+  }
+  
+  .feedback-text {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Styling for the heading */
+  .heading {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: hsl(0, 0%, 20%);
+    background-color: whitesmoke;
+    
+  }
+  
+  /* Additional styling for video preview */
+  .preview-video-container {
+    margin-top: 20px;
+  }
+  
+  .preview-video {
     width: 100%;
     max-width: 600px;
-    border: 2px solid #ccc;
+    height: auto;
     border-radius: 10px;
-}
-
-.button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 0;
-    transition: background-color 0.3s ease;
-}
-
-.button:hover {
-    background-color: #0056b3;
-}
-
-.button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
+    background-color: #000;
+  }
+  
