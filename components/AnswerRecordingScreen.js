@@ -9,7 +9,6 @@ export default function AnswerRecordingScreen({
   onAnswerComplete,
   timerDuration = 60, // Timer duration in seconds
 }) {
-  const [isRecording, setIsRecording] = useState(true); // Automatically start recording
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [timer, setTimer] = useState(timerDuration);
@@ -55,9 +54,7 @@ export default function AnswerRecordingScreen({
       }
     };
 
-    if (isRecording) {
-      startRecording();
-    }
+    startRecording();
 
     return () => {
       if (streamRef.current) {
@@ -65,7 +62,7 @@ export default function AnswerRecordingScreen({
       }
       clearInterval(timerRef.current);
     };
-  }, [isRecording, resetTimer]);
+  }, [resetTimer]);
 
   const generatePreview = () => {
     if (chunks.length > 0) {
@@ -102,8 +99,6 @@ export default function AnswerRecordingScreen({
 
   return (
     <div className={styles.container}>
-      {/* Add margin-top to move the heading down */}
-      {/* Removed the "Question X of Y" display */}
       <p className="text-center italic mb-6">{question}</p>
       <p className="text-center font-semibold text-xl mb-4">
         Time Remaining: <span className="text-yellow-300">{timer}s</span>
