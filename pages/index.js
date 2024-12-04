@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useScreenContext } from '../context/ScreenContext';
 import InstructionScreen from '../components/InstructionScreen';
 import CheckPermissionScreen from '../components/CheckPermissionScreen';
@@ -10,6 +10,7 @@ import ThankYouScreen from '../components/ThankYouScreen';
 import ScreenRecordingApp from '../components/ScreenRecordingApp';
 import EntryScreen from '../components/EntryScreen';
 import '../styles/base.css';  // Assuming base.css is in the 'styles' folder one level up from the current component
+
 
 const Home = () => {
   const { currentScreen, setCurrentScreen } = useScreenContext();
@@ -23,20 +24,19 @@ const Home = () => {
     }
   };
 
-  // Memoized stopCamera function to avoid unnecessary re-renders
-  const stopCamera = useCallback(() => {
+  const stopCamera = () => {
     if (stream) {
       const tracks = stream.getTracks();
       tracks.forEach((track) => track.stop());
     }
-  }, [stream]);
+  };
 
   useEffect(() => {
     if (answeredQuestions === totalQuestions) {
       stopCamera();
       setCurrentScreen('completion');
     }
-  }, [answeredQuestions, setCurrentScreen, stopCamera]);
+  }, [answeredQuestions, setCurrentScreen, stream]);
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -74,7 +74,7 @@ const Home = () => {
       default:
         return (
           <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <h1 className="text-xl font-bold text-center text-red-500">Thank you! Your answer has been submitted successfully.</h1>
+            <h1 className="text-xl font-bold text-center text-red-500">Thanku your answer have  submitted successfully</h1>
           </div>
         );
     }
