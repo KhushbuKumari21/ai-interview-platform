@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import styles from '../styles/AnswerRecordingScreen.module.css';
+import styles from '../styles/AnswerRecordingScreen.module.css'; // Adjusted import
 
 export default function AnswerRecordingScreen({
   nextScreen,
@@ -7,24 +7,25 @@ export default function AnswerRecordingScreen({
   questionIndex,
   totalQuestions,
   onAnswerComplete,
-  timerDuration = 60,
+  timerDuration = 60, // Timer duration in seconds
 }) {
+  const [isRecording, setIsRecording] = useState(true); // Automatically start recording
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [timer, setTimer] = useState(timerDuration);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [previewURL, setPreviewURL] = useState(null);
+  const [previewURL, setPreviewURL] = useState(null); // For video preview
   const videoRef = useRef(null);
   const timerRef = useRef(null);
   const streamRef = useRef(null);
 
   const resetTimer = () => {
-    setTimer(timerDuration);
+    setTimer(timerDuration); // Reset timer to dynamic duration
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimer((prevTime) => {
         if (prevTime === 1) {
-          handleSubmit(); // Auto-submit when time is up
+          handleSubmit(); // Auto-submit when timer ends
         }
         return prevTime - 1;
       });
@@ -47,11 +48,15 @@ export default function AnswerRecordingScreen({
         resetTimer(); // Start the timer
       } catch (error) {
         console.error("Error accessing media devices:", error);
-        alert("Failed to access camera or microphone. Please check permissions and try again.");
+        alert(
+          "Failed to access camera or microphone. Please check permissions and try again."
+        );
       }
     };
 
-    startRecording();
+    if (isRecording) {
+      startRecording();
+    }
 
     return () => {
       if (streamRef.current) {
@@ -59,7 +64,7 @@ export default function AnswerRecordingScreen({
       }
       clearInterval(timerRef.current);
     };
-  }, []); // Empty dependency array to run only on mount
+  }, [isRecording]);
 
   const generatePreview = () => {
     if (chunks.length > 0) {
@@ -96,6 +101,10 @@ export default function AnswerRecordingScreen({
 
   return (
     <div className={styles.container}>
+      {/* Add margin-top to move the heading down */}
+
+
+      {/* Removed the "Question X of Y" display */}
       <p className="text-center italic mb-6">{question}</p>
       <p className="text-center font-semibold text-xl mb-4">
         Time Remaining: <span className="text-yellow-300">{timer}s</span>
@@ -111,7 +120,7 @@ export default function AnswerRecordingScreen({
         onClick={handleSubmit}
         disabled={isSubmitted}
       >
-        {isSubmitted ? "Answer Submitted" : "Submit Answer"}
+        {isSubmitted ? "Answer Submitted" : "Submit and next"}
       </button>
       {previewURL && (
         <div className="mt-6">
