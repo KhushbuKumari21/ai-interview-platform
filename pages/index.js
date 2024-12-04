@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useScreenContext } from '../context/ScreenContext';
-import '../app/globals.css'; // Importing the global CSS
-
 import InstructionScreen from '../components/InstructionScreen';
 import CheckPermissionScreen from '../components/CheckPermissionScreen';
 import QuestionScreen from '../components/QuestionScreen';
@@ -11,6 +9,8 @@ import TestCompletionScreen from '../components/TestCompletionScreen';
 import ThankYouScreen from '../components/ThankYouScreen';
 import ScreenRecordingApp from '../components/ScreenRecordingApp';
 import EntryScreen from '../components/EntryScreen';
+import '../styles/base.css';  // Assuming base.css is in the 'styles' folder one level up from the current component
+
 
 const Home = () => {
   const { currentScreen, setCurrentScreen } = useScreenContext();
