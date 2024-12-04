@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import AnswerRecordingScreen from "./AnswerRecordingScreen";
+import styles from '../styles/QuestionScreen.module.css'; // Import the CSS module
 
 export default function QuestionScreen({ nextScreen }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -13,14 +14,21 @@ export default function QuestionScreen({ nextScreen }) {
     "Can you describe a challenging situation you have faced and how you overcame it?",
   ];
 
+  // Function to play the audio for the question
   const playAudio = (questionText) => {
     const audio = new SpeechSynthesisUtterance(questionText);
     window.speechSynthesis.speak(audio);
   };
 
+  // Automatically play audio when a new question appears
+  useEffect(() => {
+    playAudio(questions[currentQuestionIndex]);
+  }, [currentQuestionIndex]);
+
   const nextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setIsRecording(false); // Reset recording state for the next question
     } else {
       alert("Interview complete. Thank you!");
       nextScreen();
@@ -29,16 +37,13 @@ export default function QuestionScreen({ nextScreen }) {
 
   const questionProgress = `${currentQuestionIndex + 1} of ${questions.length}`;
 
-  useEffect(() => {
-    playAudio(questions[currentQuestionIndex]);
-  }, [currentQuestionIndex]);
-
   return (
-    <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-4">Question</h1>
-      <p className="text-center mb-4">{questionProgress}</p>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Question</h1>
+      <p className={styles.progress}>{questionProgress}</p>
 
       {isRecording ? (
+        // Show the AnswerRecordingScreen if recording is active
         <AnswerRecordingScreen
           nextScreen={nextQuestion}
           question={questions[currentQuestionIndex]}
@@ -46,16 +51,11 @@ export default function QuestionScreen({ nextScreen }) {
           totalQuestions={questions.length}
         />
       ) : (
+        // Show the question and Start Recording button
         <>
-          <p className="text-lg text-center mb-4">{questions[currentQuestionIndex]}</p>
+          <p className={styles.question}>{questions[currentQuestionIndex]}</p>
           <button
-            className="w-full py-2 bg-blue-500 text-white rounded-lg mb-4"
-            onClick={() => playAudio(questions[currentQuestionIndex])}
-          >
-            Play Question Audio
-          </button>
-          <button
-            className="w-full py-2 bg-blue-500 text-white rounded-lg mt-4"
+            className={styles.button}
             onClick={() => setIsRecording(true)}
           >
             Start Recording Answer
