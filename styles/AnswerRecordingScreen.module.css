@@ -4,12 +4,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 80vh; /* Reduced height for a more compact layout */
+    height: 90vh; /* Increased height for more space */
+    width: 90%; /* Increased width for a wider container */
+    max-width: 1400px; /* Limit max-width to avoid full-screen overflow */
     background-color: #f4f4f9;
-    padding: 20px;
+    padding: 30px; /* Added more padding */
     padding-top: 48px;
     gap: 20px; /* Increased gap for better spacing */
     box-sizing: border-box;
+    margin: 0 auto; /* Centered the container */
 }
 
 /* Video element style */
@@ -30,17 +33,19 @@
     color: #fff;
     background-color: #007bff;
     border: none;
-    border-radius: 8px;
+    border-radius: 48px;
     cursor: pointer;
-    margin: 15px 0; /* Increased margin for more balanced spacing */
+    margin-top: 20px; /* Moved the button up */
+    margin-bottom: 20px; /* Adjusted margin for better positioning */
     transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly larger shadow for more emphasis */
 }
 
 /* Hover effect for the button */
 .button:hover {
-    background-color: #0056b3;
+    background-color: #f6f8fa;
     transform: scale(1.05); /* Larger scale effect on hover */
+    color:  black;
 }
 
 /* Disabled button style */
@@ -54,7 +59,7 @@
 .timer {
     font-size: 1.4rem; /* Increased font size for better readability */
     font-weight: bold;
-    color: #333;
+    color: #c60707;
     margin-top: 10px; /* Increased margin */
     text-align: center; /* Centered the timer */
 }
@@ -89,4 +94,25 @@
     font-weight: 600;
     font-size: 1.2rem;
     color: #f2b10f; /* Yellow color for better visibility */
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    .video, .preview-video {
+        width: 90%;
+        max-width: 100%;
+    }
+
+    .button {
+        padding: 40px 20px; /* Adjusting padding on smaller screens */
+        font-size: 1rem; /* Smaller font size for the button */
+    }
+
+    .heading {
+        font-size: 1.5rem; /* Smaller heading size for small screens */
+    }
+
+    .timer {
+        font-size: 1.2rem; /* Smaller timer font size */
+    }
 }
