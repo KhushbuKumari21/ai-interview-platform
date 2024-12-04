@@ -1,40 +1,92 @@
-/* styles/AnswerRecordingScreen.module.css */
-
+/* Container for the entire screen */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 80vh; /* Reduced height for a more compact layout */
     background-color: #f4f4f9;
     padding: 20px;
-    gap: 20px;
+    padding-top: 48px;
+    gap: 20px; /* Increased gap for better spacing */
+    box-sizing: border-box;
 }
 
+/* Video element style */
 .video {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px; /* Slightly reduced the max width */
+    height: 400px; /* Balanced height */
     border: 2px solid #ccc;
-    border-radius: 10px;
+    border-radius: 12px;
+    background-color: #000;
+    margin-bottom: 20px; /* Added margin to separate video from other elements */
 }
 
+/* Button style */
 .button {
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 12px 30px; /* Slightly increased padding for a more clickable button */
+    font-size: 1.2rem; /* Increased font size slightly for better visibility */
     color: #fff;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    margin: 10px 0;
-    transition: background-color 0.3s ease;
+    margin: 15px 0; /* Increased margin for more balanced spacing */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly larger shadow for more emphasis */
 }
 
+/* Hover effect for the button */
 .button:hover {
     background-color: #0056b3;
+    transform: scale(1.05); /* Larger scale effect on hover */
 }
 
+/* Disabled button style */
 .button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+    transform: none;
+}
+
+/* Timer text style */
+.timer {
+    font-size: 1.4rem; /* Increased font size for better readability */
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px; /* Increased margin */
+    text-align: center; /* Centered the timer */
+}
+
+/* Preview video style */
+.preview-video {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 750px; /* Slightly smaller max-width for a balanced look */
+    height: 350px; /* Adjusted height for consistency */
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    background-color: #000;
+}
+
+/* Headings and text styling - Applied class instead of global selector */
+.heading {
+    font-size: 2rem; /* Reduced the font size slightly for balance */
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* For the question text */
+.italic {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.font-semibold {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #f2b10f; /* Yellow color for better visibility */
 }
