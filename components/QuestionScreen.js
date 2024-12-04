@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AnswerRecordingScreen from "./AnswerRecordingScreen";
 import styles from '../styles/QuestionScreen.module.css'; // Import the CSS module
 
@@ -6,13 +6,14 @@ export default function QuestionScreen({ nextScreen }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
 
-  const questions = [
+  // Memoize the questions array to prevent unnecessary re-renders
+  const questions = useMemo(() => [
     "Tell me about yourself.",
     "Why do you want to work at this company?",
     "What are your strengths and weaknesses?",
     "Where do you see yourself in 5 years?",
     "Can you describe a challenging situation you have faced and how you overcame it?",
-  ];
+  ], []); // Empty dependency array ensures this is only created once
 
   // Function to play the audio for the question
   const playAudio = (questionText) => {
@@ -23,7 +24,7 @@ export default function QuestionScreen({ nextScreen }) {
   // Automatically play audio when a new question appears
   useEffect(() => {
     playAudio(questions[currentQuestionIndex]);
-  }, [currentQuestionIndex, questions]); // Include questions in the dependency array
+  }, [currentQuestionIndex]); // Only depend on currentQuestionIndex
 
   const nextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
