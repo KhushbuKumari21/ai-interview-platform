@@ -7,11 +7,12 @@ export default function CheckPermissionScreen({ nextScreen }) {
     microphone: false,
     screen: false,
   });
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State to hold error message
 
   // Memoized checkPermissions function to avoid unnecessary re-creations
   const checkPermissions = useCallback(async () => {
     try {
+      // Try to get user media for both video and audio (camera and microphone)
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true,
@@ -24,18 +25,20 @@ export default function CheckPermissionScreen({ nextScreen }) {
         }));
       }
 
+      // Try to get screen sharing permissions
       const screenStream = await navigator.mediaDevices.getDisplayMedia();
       if (screenStream) {
         setPermissions((prev) => ({
           ...prev,
           screen: true,
         }));
+        // Handle the end of screen sharing
         screenStream.oninactive = () => {
-          // Automatically submit when screen sharing stops
           nextScreen("completion");
         };
       }
     } catch (error) {
+      // Set error message if permissions are not granted
       setErrorMessage(
         "Some permissions are missing. Please enable camera, microphone, and screen sharing."
       );
@@ -55,7 +58,7 @@ export default function CheckPermissionScreen({ nextScreen }) {
   // Automatically check permissions on component mount
   useEffect(() => {
     checkPermissions();
-  }, [checkPermissions]);  // Add checkPermissions to the dependency array
+  }, [checkPermissions]);
 
   // Helper function to check if all permissions are granted
   const allPermissionsGranted =
@@ -107,6 +110,7 @@ export default function CheckPermissionScreen({ nextScreen }) {
             />
           </div>
         </div>
+        {/* Display error message if there is one */}
         {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
         <button
           className={`${styles.button} ${allPermissionsGranted ? styles.startButton : styles.checkButton}`}
@@ -114,6 +118,7 @@ export default function CheckPermissionScreen({ nextScreen }) {
         >
           {allPermissionsGranted ? "Start Interview" : "Check Permissions"}
         </button>
+        {/* Show retry button if not all permissions are granted */}
         {!allPermissionsGranted && (
           <button
             className={styles.retryButton}
