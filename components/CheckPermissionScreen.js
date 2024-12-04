@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "../styles/CheckPermissionScreen.module.css"; // Importing the CSS module
 
 export default function CheckPermissionScreen({ nextScreen }) {
@@ -8,10 +8,9 @@ export default function CheckPermissionScreen({ nextScreen }) {
     screen: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
-  const [screenStream, setScreenStream] = useState(null);
 
-  // Check permissions for camera, microphone, and screen sharing
-  const checkPermissions = async () => {
+  // Memoized checkPermissions function to avoid unnecessary re-creations
+  const checkPermissions = useCallback(async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: true,
@@ -31,7 +30,6 @@ export default function CheckPermissionScreen({ nextScreen }) {
           ...prev,
           screen: true,
         }));
-        setScreenStream(screenStream); // Save the screen stream to track it
         screenStream.oninactive = () => {
           // Automatically submit when screen sharing stops
           nextScreen("completion");
@@ -42,7 +40,7 @@ export default function CheckPermissionScreen({ nextScreen }) {
         "Some permissions are missing. Please enable camera, microphone, and screen sharing."
       );
     }
-  };
+  }, [nextScreen]);
 
   const handleStartInterview = () => {
     if (permissions.camera && permissions.microphone && permissions.screen) {
