@@ -1,55 +1,70 @@
-/* styles/InstructionScreen.module.css */
-
+/* Container for the entire screen */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #f4f4f9;
-  padding: 20px;
-  gap: 20px;
+  height: 100vh; /* Full height of the screen */
+  width: 100vw; /* Full width of the screen */
+  background-color: #f0f0f0; /* Light background */
+  padding: 0 20px; /* Add padding only on the left and right (20px each) */
+  box-sizing: border-box; /* Include padding in width/height calculations */
 }
 
+/* Styling for the instruction box */
+.instructionBox {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  text-align: center;
+  width: 100%;
+  max-width: 600px; /* Optional: limit max width for better readability */
+}
+
+/* Styling for the heading */
 .heading {
   font-size: 2rem;
-  font-weight: bold;
-  color: #333;
+  font-weight: bold; /* Bold title */
+  color: #390be0;
+  background-color: #e8e8e8; /* Light background for the title */
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  text-align: center; /* Center the text */
 }
 
-.paragraph {
-  font-size: 1.2rem;
-  color: #555;
-  text-align: center;
-  margin-top: 10px;
-}
-
+/* Styling for the instructions list */
 .instructionsList {
   list-style-type: none;
   padding: 0;
-  font-size: 1rem;
-  color: #333;
+  font-size: 1rem; /* Adjusted font size for readability */
+  color: #3e07d6;
   margin-top: 20px;
+  width: 100%;
+  text-align: left; /* Align text to the left */
 }
 
 .instructionsList li {
   margin: 10px 0;
 }
 
+/* Button styling */
 .button {
   padding: 12px 20px;
   font-size: 1rem;
   color: #fff;
-  background-color: #007bff;
+  background-color: #007bff; /* Blue button */
   border: none;
-  border-radius: 5px;
+  border-radius: 30px; /* Rounded button */
   cursor: pointer;
   margin-top: 20px;
   transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #77a8dc; /* Lighter blue on hover */
+  color: #3e07d6;
 }
 
 .button:focus {
