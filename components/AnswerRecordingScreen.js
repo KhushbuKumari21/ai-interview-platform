@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import styles from '../styles/AnswerRecordingScreen.module.css'; // Adjusted import
 
 export default function AnswerRecordingScreen({
@@ -19,7 +19,8 @@ export default function AnswerRecordingScreen({
   const timerRef = useRef(null);
   const streamRef = useRef(null);
 
-  const resetTimer = () => {
+  // Memoized resetTimer function to avoid unnecessary re-creations
+  const resetTimer = useCallback(() => {
     setTimer(timerDuration); // Reset timer to dynamic duration
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
@@ -30,7 +31,7 @@ export default function AnswerRecordingScreen({
         return prevTime - 1;
       });
     }, 1000);
-  };
+  }, [timerDuration]);
 
   useEffect(() => {
     const startRecording = async () => {
@@ -64,7 +65,7 @@ export default function AnswerRecordingScreen({
       }
       clearInterval(timerRef.current);
     };
-  }, [isRecording]);
+  }, [isRecording, resetTimer]);
 
   const generatePreview = () => {
     if (chunks.length > 0) {
@@ -102,10 +103,6 @@ export default function AnswerRecordingScreen({
   return (
     <div className={styles.container}>
       {/* Add margin-top to move the heading down */}
-   
-    
-
-
       {/* Removed the "Question X of Y" display */}
       <p className="text-center italic mb-6">{question}</p>
       <p className="text-center font-semibold text-xl mb-4">
