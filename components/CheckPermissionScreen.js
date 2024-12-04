@@ -57,7 +57,7 @@ export default function CheckPermissionScreen({ nextScreen }) {
   // Automatically check permissions on component mount
   useEffect(() => {
     checkPermissions();
-  }, []);
+  }, [checkPermissions]);  // Add checkPermissions to the dependency array
 
   // Helper function to check if all permissions are granted
   const allPermissionsGranted =
