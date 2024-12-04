@@ -18,60 +18,21 @@ export default function AnswerRecordingScreen({
   const timerRef = useRef(null);
   const streamRef = useRef(null);
 
+  // Handle the timer logic separately to avoid circular dependency
   const resetTimer = useCallback(() => {
     setTimer(timerDuration);
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimer((prevTime) => {
         if (prevTime === 1) {
-          handleSubmit();
+          handleSubmit(); // Automatically submit when time is up
         }
         return prevTime - 1;
       });
     }, 1000);
-  }, [timerDuration, handleSubmit]);
+  }, [timerDuration]);
 
-  useEffect(() => {
-    const startRecording = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: true,
-        });
-        streamRef.current = stream;
-        videoRef.current.srcObject = stream;
-        const recorder = new MediaRecorder(stream);
-        recorder.ondataavailable = (e) => setChunks((prev) => [...prev, e.data]);
-        recorder.start();
-        setMediaRecorder(recorder);
-        resetTimer();
-      } catch (error) {
-        console.error("Error accessing media devices:", error);
-        alert(
-          "Failed to access camera or microphone. Please check permissions and try again."
-        );
-      }
-    };
-
-    startRecording();
-
-    return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-      clearInterval(timerRef.current);
-    };
-  }, [resetTimer]);
-
-  // Memoized generatePreview function to prevent unnecessary re-creations
-  const generatePreview = useCallback(() => {
-    if (chunks.length > 0) {
-      const blob = new Blob(chunks, { type: "video/webm" });
-      const url = URL.createObjectURL(blob);
-      setPreviewURL(url);
-    }
-  }, [chunks]);  // Only re-create when chunks change
-
+  // The function to handle the submission of the answer
   const handleSubmit = useCallback(() => {
     if (isSubmitted) return;
 
@@ -96,6 +57,45 @@ export default function AnswerRecordingScreen({
       nextScreen("thankYou");
     }
   }, [isSubmitted, onAnswerComplete, mediaRecorder, generatePreview, streamRef, questionIndex, totalQuestions, nextScreen]);
+
+  // Memoized generatePreview function to prevent unnecessary re-creations
+  const generatePreview = useCallback(() => {
+    if (chunks.length > 0) {
+      const blob = new Blob(chunks, { type: "video/webm" });
+      const url = URL.createObjectURL(blob);
+      setPreviewURL(url);
+    }
+  }, [chunks]); // Only re-create when chunks change
+
+  useEffect(() => {
+    const startRecording = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
+        streamRef.current = stream;
+        videoRef.current.srcObject = stream;
+        const recorder = new MediaRecorder(stream);
+        recorder.ondataavailable = (e) => setChunks((prev) => [...prev, e.data]);
+        recorder.start();
+        setMediaRecorder(recorder);
+        resetTimer(); // Start the timer when recording starts
+      } catch (error) {
+        console.error("Error accessing media devices:", error);
+        alert("Failed to access camera or microphone. Please check permissions and try again.");
+      }
+    };
+
+    startRecording();
+
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      clearInterval(timerRef.current);
+    };
+  }, [resetTimer]);
 
   return (
     <div className={styles.container}>
