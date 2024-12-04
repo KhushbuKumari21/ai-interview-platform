@@ -4,115 +4,112 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 90vh; /* Increased height for more space */
-    width: 90%; /* Increased width for a wider container */
-    max-width: 1400px; /* Limit max-width to avoid full-screen overflow */
-    background-color: #f4f4f9;
-    padding: 30px; /* Added more padding */
-    padding-top: 48px;
-    gap: 20px; /* Increased gap for better spacing */
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
     box-sizing: border-box;
-    margin: 0 auto; /* Centered the container */
-}
-
-/* Video element style */
-.video {
-    width: 100%;
-    max-width: 800px; /* Slightly reduced the max width */
-    height: 400px; /* Balanced height */
-    border: 2px solid #ccc;
-    border-radius: 12px;
-    background-color: #000;
-    margin-bottom: 20px; /* Added margin to separate video from other elements */
-}
-
-/* Button style */
-.button {
-    padding: 12px 30px; /* Slightly increased padding for a more clickable button */
-    font-size: 1.2rem; /* Increased font size slightly for better visibility */
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 48px;
-    cursor: pointer;
-    margin-top: 20px; /* Moved the button up */
-    margin-bottom: 20px; /* Adjusted margin for better positioning */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly larger shadow for more emphasis */
-}
-
-/* Hover effect for the button */
-.button:hover {
-    background-color: #f6f8fa;
-    transform: scale(1.05); /* Larger scale effect on hover */
-    color:  black;
-}
-
-/* Disabled button style */
-.button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Timer text style */
-.timer {
-    font-size: 1.4rem; /* Increased font size for better readability */
-    font-weight: bold;
-    color: #c60707;
-    margin-top: 10px; /* Increased margin */
-    text-align: center; /* Centered the timer */
-}
-
-/* Preview video style */
-.preview-video {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 750px; /* Slightly smaller max-width for a balanced look */
-    height: 350px; /* Adjusted height for consistency */
-    border: 2px solid #ccc;
-    border-radius: 12px;
-    background-color: #000;
-}
-
-/* Headings and text styling - Applied class instead of global selector */
-.heading {
-    font-size: 2rem; /* Reduced the font size slightly for balance */
-    font-weight: bold;
     text-align: center;
-    margin-top: 20px;
-}
-
-/* For the question text */
-.italic {
-    font-style: italic;
-    font-size: 1.1rem;
+  }
+  
+  /* Styling for the video player */
+  .video {
+    width: 80%;
+    max-width: 800px;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 10px;
     margin-bottom: 20px;
-}
-
-.font-semibold {
-    font-weight: 600;
+    background-color: #000;
+  }
+  
+  /* Timer and question text styling */
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Time remaining styling */
+  .time-remaining {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Styling for the submit button */
+  .button {
+    background-color: #4caf50; /* Initial background color */
+    color: white; /* Text color */
+    padding: 12px 24px; /* Padding for the button */
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 80px; /* Makes the button round */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background color and text color */
+    margin-top: 20px;
+  }
+  
+  .button:hover {
+    background-color: hwb(120 90% 7%); /* Darker green on hover */
+    color: hsl(0, 0%, 5%); /* Text color stays white */
+  }
+  
+  .button:disabled {
+    background-color: #ccc; /* Disabled button color */
+    cursor: not-allowed;
+  }
+  
+  /* Styling for the preview section */
+  .preview-container {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .preview-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .preview-video {
+    width: 80%;
+    max-width: 800px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #000;
+  }
+  
+  /* Feedback styling after test completion */
+  .feedback-container {
+    margin-top: 30px;
+  }
+  
+  .feedback-text {
     font-size: 1.2rem;
-    color: #f2b10f; /* Yellow color for better visibility */
-}
-
-/* Responsive Design for smaller screens */
-@media (max-width: 768px) {
-    .video, .preview-video {
-        width: 90%;
-        max-width: 100%;
-    }
-
-    .button {
-        padding: 40px 20px; /* Adjusting padding on smaller screens */
-        font-size: 1rem; /* Smaller font size for the button */
-    }
-
-    .heading {
-        font-size: 1.5rem; /* Smaller heading size for small screens */
-    }
-
-    .timer {
-        font-size: 1.2rem; /* Smaller timer font size */
-    }
-}
+    color: #333;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Styling for the heading */
+  .heading {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: hsl(0, 0%, 20%);
+    background-color: whitesmoke;
+    
+  }
+  
+  /* Additional styling for video preview */
+  .preview-video-container {
+    margin-top: 20px;
+  }
+  
+  .preview-video {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 10px;
+    background-color: #000;
+  }
+  
