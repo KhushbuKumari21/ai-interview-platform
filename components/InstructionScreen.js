@@ -2,16 +2,41 @@ import React from "react";
 
 const InstructionScreen = ({ nextScreen }) => {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-4">Instructions</h1>
-      <p className="text-center mb-4">
-        Follow the instructions to proceed with the interview.
-      </p>
+    <div
+      style={{
+        backgroundColor: "#000E2A",
+        color: "white",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "20px",
+      }}
+    >
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>Instructions</h1>
+        <ul style={{ listStyleType: "none", padding: 0, textAlign: "left" }}>
+          <li>1. Ensure stable internet and choose a clean, quiet location.</li>
+          <li>2. Permission for access to camera, microphone, and screen sharing is required.</li>
+          <li>3. Be in professional attire and avoid distractions.</li>
+          <li>4. Provide detailed responses with examples.</li>
+          <li>5. Answer the questions based on your projects and experience.</li>
+        </ul>
+      </div>
       <button
-        className="w-full py-2 bg-blue-500 text-white rounded-lg"
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#FFD700",
+          color: "#000",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          fontSize: "16px",
+        }}
         onClick={() => nextScreen("permission")}
       >
-        Proceed
+        Start Now
       </button>
     </div>
   );
