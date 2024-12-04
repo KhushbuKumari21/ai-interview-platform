@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import styles from '../styles/AnswerRecordingScreen.module.css'; // Adjusted import
 
 export default function AnswerRecordingScreen({
   nextScreen,
@@ -6,9 +7,9 @@ export default function AnswerRecordingScreen({
   questionIndex,
   totalQuestions,
   onAnswerComplete,
-  timerDuration = 60, // New prop for dynamic timer duration
+  timerDuration = 60, // Timer duration in seconds
 }) {
-  const [isRecording, setIsRecording] = useState(false);
+  const [isRecording, setIsRecording] = useState(true); // Automatically start recording
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [timer, setTimer] = useState(timerDuration);
@@ -24,7 +25,7 @@ export default function AnswerRecordingScreen({
     timerRef.current = setInterval(() => {
       setTimer((prevTime) => {
         if (prevTime === 1) {
-          handleSubmit();
+          handleSubmit(); // Auto-submit when timer ends
         }
         return prevTime - 1;
       });
@@ -44,7 +45,7 @@ export default function AnswerRecordingScreen({
         recorder.ondataavailable = (e) => setChunks((prev) => [...prev, e.data]);
         recorder.start();
         setMediaRecorder(recorder);
-        resetTimer();
+        resetTimer(); // Start the timer
       } catch (error) {
         console.error("Error accessing media devices:", error);
         alert(
@@ -55,9 +56,6 @@ export default function AnswerRecordingScreen({
 
     if (isRecording) {
       startRecording();
-    } else if (mediaRecorder) {
-      mediaRecorder.stop();
-      clearInterval(timerRef.current);
     }
 
     return () => {
@@ -94,7 +92,6 @@ export default function AnswerRecordingScreen({
 
     if (questionIndex < totalQuestions - 1) {
       nextScreen();
-      setIsRecording(false);
       setIsSubmitted(false);
       setChunks([]);
     } else {
@@ -103,33 +100,37 @@ export default function AnswerRecordingScreen({
   };
 
   return (
-    <div className="w-full max-w-md p-4 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-4">Recording Answer</h1>
-      <p className="text-center mb-4">{`${questionIndex + 1} of ${totalQuestions}`}</p>
-      <p className="text-center mb-4">{question}</p>
-      <p className="text-center mb-4">Time Remaining: {timer}s</p>
-      <video ref={videoRef} autoPlay muted className="w-full h-60 mb-4" />
+    <div className={styles.container}>
+      {/* Add margin-top to move the heading down */}
+   
+    
+
+
+      {/* Removed the "Question X of Y" display */}
+      <p className="text-center italic mb-6">{question}</p>
+      <p className="text-center font-semibold text-xl mb-4">
+        Time Remaining: <span className="text-yellow-300">{timer}s</span>
+      </p>
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        className={styles.video}
+      />
       <button
-        className="w-full py-2 bg-blue-500 text-white rounded-lg mt-4"
-        onClick={() => setIsRecording(!isRecording)}
-        disabled={isRecording || isSubmitted}
-      >
-        {isRecording ? "Recording... Please Wait" : "Start Recording"}
-      </button>
-      <button
-        className="w-full py-2 bg-blue-500 text-white rounded-lg mt-4"
+        className={styles.button}
         onClick={handleSubmit}
         disabled={isSubmitted}
       >
-        Submit Answer Manually
+        {isSubmitted ? "Answer Submitted" : "Submit Answer"}
       </button>
       {previewURL && (
-        <div className="mt-4">
-          <h2 className="text-center font-bold mb-2">Preview</h2>
+        <div className="mt-6">
+          <h2 className="text-center text-xl font-bold mb-2">Preview</h2>
           <video
             src={previewURL}
             controls
-            className="w-full h-60 border rounded-lg"
+            className={styles.video}
           />
         </div>
       )}
