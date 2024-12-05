@@ -11,8 +11,6 @@ export default function AnswerRecordingScreen({
   timerDuration = 60, // Timer duration in seconds
 }) {
 
-  const [isRecording, setIsRecording] = useState(true);
-
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [timer, setTimer] = useState(timerDuration);
@@ -59,13 +57,7 @@ export default function AnswerRecordingScreen({
       }
     };
 
-
-    if (isRecording) {
-      startRecording();
-    }
-
-    startRecording(); // Directly starting the recording as we no longer use setIsRecording
-
+    startRecording(); // Directly starting the recording
 
     return () => {
       if (streamRef.current) {
@@ -73,7 +65,7 @@ export default function AnswerRecordingScreen({
       }
       clearInterval(timerRef.current);
     };
-  }, []);
+  }, [resetTimer]); // Add resetTimer to the dependency array
 
   const generatePreview = () => {
     if (chunks.length > 0) {
