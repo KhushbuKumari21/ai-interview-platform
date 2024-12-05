@@ -9,10 +9,10 @@
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
-  }
-  
-  /* Styling for the video player */
-  .video {
+}
+
+/* Styling for the video player */
+.video {
     width: 80%;
     max-width: 800px;
     height: auto;
@@ -20,22 +20,22 @@
     border-radius: 10px;
     margin-bottom: 20px;
     background-color: #000;
-  }
-  
-  /* Timer and question text styling */
-  .text-center {
+}
+
+/* Timer and question text styling */
+.text-center {
     text-align: center;
-  }
-  
-  /* Time remaining styling */
-  .time-remaining {
+}
+
+/* Time remaining styling */
+.time-remaining {
     font-size: 1.5rem;
     font-weight: bold;
     color: #333;
-  }
-  
-  /* Styling for the submit button */
-  .button {
+}
+
+/* Styling for the submit button */
+.button {
     background-color: #4caf50; /* Initial background color */
     color: white; /* Text color */
     padding: 12px 24px; /* Padding for the button */
@@ -46,74 +46,68 @@
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for background color and text color */
     margin-top: 20px;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background-color: hwb(120 90% 7%); /* Darker green on hover */
     color: hsl(0, 0%, 5%); /* Text color stays white */
-  }
-  
-  .button:disabled {
+}
+
+.button:disabled {
     background-color: #ccc; /* Disabled button color */
     cursor: not-allowed;
-  }
-  
-  /* Styling for the preview section */
-  .preview-container {
+}
+
+/* Styling for the preview section */
+.preview-container {
     margin-top: 40px;
     text-align: center;
-  }
-  
-  .preview-title {
+}
+
+.preview-title {
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 10px;
-  }
-  
-  .preview-video {
+}
+
+.preview-video {
     width: 80%;
     max-width: 800px;
     border: 2px solid #ddd;
     border-radius: 10px;
     background-color: #000;
-  }
-  
-  /* Feedback styling after test completion */
-  .feedback-container {
+}
+
+/* Feedback styling after test completion */
+.feedback-container {
     margin-top: 30px;
-  }
-  
-  .feedback-text {
+}
+
+.feedback-text {
     font-size: 1.2rem;
     color: #333;
     font-weight: bold;
     margin-top: 10px;
-  }
-  
-  /* Styling for the heading */
-  .heading {
+}
+
+/* Styling for the heading */
+.heading {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 10px;
     color: hsl(0, 0%, 20%);
     background-color: whitesmoke;
-    
-  }
-  
-  /* Additional styling for video preview */
-  .preview-video-container {
+}
+
+/* Additional styling for video preview */
+.preview-video-container {
     margin-top: 20px;
-  }
-  
-  .preview-video {
+}
+
+.preview-video {
     width: 100%;
     max-width: 600px;
     height: auto;
     border-radius: 10px;
     background-color: #000;
-  }
-<<<<<<< HEAD
-  
-=======
-  
->>>>>>> 068dbdb71a52d223b6dc17523f30129a7d8bea11
+}
