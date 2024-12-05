@@ -24,11 +24,7 @@ export default function QuestionScreen({ nextScreen }) {
   // Automatically play audio when a new question appears
   useEffect(() => {
     playAudio(questions[currentQuestionIndex]);
-<<<<<<< HEAD
-  }, [currentQuestionIndex]);
-=======
   }, [currentQuestionIndex, questions]); // Include questions in the dependency array
->>>>>>> 068dbdb71a52d223b6dc17523f30129a7d8bea11
 
   const nextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
