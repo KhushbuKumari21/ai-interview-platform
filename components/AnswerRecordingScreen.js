@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
-import styles from '../styles/AnswerRecordingScreen.module.css'; // Adjusted import
+import React, { useState, useEffect, useRef } from "react";
+import ThankYouScreen from "./ThankYouScreen";
+import styles from "../styles/AnswerRecordingScreen.module.css"; // Adjust as needed
 
 export default function AnswerRecordingScreen({
   nextScreen,
@@ -9,23 +10,24 @@ export default function AnswerRecordingScreen({
   onAnswerComplete,
   timerDuration = 60, // Timer duration in seconds
 }) {
-  const [isRecording, setIsRecording] = useState(true); // Automatically start recording
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [chunks, setChunks] = useState([]);
   const [timer, setTimer] = useState(timerDuration);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [previewURL, setPreviewURL] = useState(null); // For video preview
+  const [previewURL, setPreviewURL] = useState(null);
+  const [testCompleted, setTestCompleted] = useState(false);
+  const [examFeedback, setExamFeedback] = useState("");
   const videoRef = useRef(null);
   const timerRef = useRef(null);
   const streamRef = useRef(null);
 
   const resetTimer = () => {
-    setTimer(timerDuration); // Reset timer to dynamic duration
+    setTimer(timerDuration);
     clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setTimer((prevTime) => {
         if (prevTime === 1) {
-          handleSubmit(); // Auto-submit when timer ends
+          handleSubmit();
         }
         return prevTime - 1;
       });
@@ -45,7 +47,7 @@ export default function AnswerRecordingScreen({
         recorder.ondataavailable = (e) => setChunks((prev) => [...prev, e.data]);
         recorder.start();
         setMediaRecorder(recorder);
-        resetTimer(); // Start the timer
+        resetTimer();
       } catch (error) {
         console.error("Error accessing media devices:", error);
         alert(
@@ -54,9 +56,7 @@ export default function AnswerRecordingScreen({
       }
     };
 
-    if (isRecording) {
-      startRecording();
-    }
+    startRecording(); // Directly starting the recording as we no longer use setIsRecording
 
     return () => {
       if (streamRef.current) {
@@ -64,7 +64,7 @@ export default function AnswerRecordingScreen({
       }
       clearInterval(timerRef.current);
     };
-  }, [isRecording]);
+  }, []);
 
   const generatePreview = () => {
     if (chunks.length > 0) {
@@ -81,7 +81,7 @@ export default function AnswerRecordingScreen({
 
     if (mediaRecorder) {
       mediaRecorder.stop();
-      generatePreview(); // Generate preview after recording stops
+      generatePreview();
       setIsSubmitted(true);
     }
 
@@ -95,41 +95,42 @@ export default function AnswerRecordingScreen({
       setIsSubmitted(false);
       setChunks([]);
     } else {
-      nextScreen("thankYou");
+      stopCamera();
+      setExamFeedback("You did a great job! We'll review your answers soon.");
+      setTestCompleted(true);
     }
   };
 
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    console.log("Camera stopped successfully.");
+  };
+
+  if (testCompleted) {
+    return <ThankYouScreen examFeedback={examFeedback} />;
+  }
+
   return (
     <div className={styles.container}>
-      {/* Add margin-top to move the heading down */}
-
-
-      {/* Removed the "Question X of Y" display */}
       <p className="text-center italic mb-6">{question}</p>
       <p className="text-center font-semibold text-xl mb-4">
         Time Remaining: <span className="text-yellow-300">{timer}s</span>
       </p>
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        className={styles.video}
-      />
+      <video ref={videoRef} autoPlay muted className={styles.video} />
       <button
         className={styles.button}
         onClick={handleSubmit}
         disabled={isSubmitted}
       >
-        {isSubmitted ? "Answer Submitted" : "Submit Answer"}
+        {isSubmitted ? "Answer Submitted" : "Submit and Next"}
       </button>
       {previewURL && (
         <div className="mt-6">
           <h2 className="text-center text-xl font-bold mb-2">Preview</h2>
-          <video
-            src={previewURL}
-            controls
-            className={styles.video}
-          />
+          <video src={previewURL} controls className={styles.video} />
         </div>
       )}
     </div>
